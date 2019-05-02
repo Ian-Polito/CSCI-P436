@@ -1,0 +1,10 @@
+Ian Polito
+ipolito
+Operating Systems
+Assignment 4.3 Report
+
+This assignment is where I implemented the FUTURE_SHARED and FUTURE_QUEUE modes for the already
+established future program from Assignment 4.1. Running future_test with xsh_run now offers a
+few new flags, such as -pc which tests the producer/consumer case with all three modes. In
+addition, using the -f flag along with a number will use the future program to calculate the
+nth fibonacci number by creating n+1 processes running ffib().

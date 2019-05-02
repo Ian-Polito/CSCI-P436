@@ -1,0 +1,37 @@
+Assignment 6 Report
+Ian Polito
+ipolito
+OS-Xinu
+
+Description of function implementation: 
+fs_open - The function searches through the directory and uses strcmp with the given filename string to see if it can find
+the file. If it is found, it is added to the file table, it's state is set to FSTATE_OPEN and it's inode is created.
+
+fs_close - This function first checks to make sure that the given file descriptor is within bounds and also checks if the
+state of the file entry in question is open. If it is, it resets the inode struct values and it's state is set to FSTATE_CLOSE
+and returns OK. If the file descriptor is not in bounds or the file is already closed it returns SYSERR.
+
+fs_create - The function first checks if there is an available file descriptor and inode for a new file and returns SYSERR
+if there is not. It also checks if the file already exists. If there is room and the file doesn't already exist, it adds
+the file to the directory, copies the given filename into it, gives it a file descriptor, and initializes the inode for it.
+Lastly, it calculates the block number and uses fs_setmaskbit to add it to memory.
+
+fs_seek - This function starts by checking if the given file descriptor is within bounds and then sets the file pointer of
+the file table entry with that file descriptor to it's file pointer + offset.
+
+fs_read - This function first checks if the given file descriptor is within bounds and gets some basic variables, including the
+block number, offset, and how many bytes to read. It then loops to read bytes. Each iteration it uses the bs_bread function to
+read from the given file and uses the given buffer. Then it recalculates offset and block number as well as how many bytes
+have been read to eventually exit the loop.
+
+fs_write - This function first checks if the file descriptor is within bounds and also clears the file. Then is gets some basic
+variables, including the number of blocks to write, the starting point, and the number of bytes to write. It also keeps track of
+how many bytes and blocks it has written so it can update the file size. It then starts a loop to write. Each iteration it clears
+a block, then uses bs_bwrite to write the data. Then it calculates the bytes and blocks written, increments the buffer forward,
+and adds the block to the inode block list. This is done until all is written.
+
+Lessons learned: 
+Through completing this homework I learned a lot about how the ext2 file system works since this file system is a very 
+simplified version of it. I learned how to use the given IO functions in bs.c and fs.c to write some basic file operations. I 
+learned how the various structs are used to store information about file entries in the table. Lastly I learned how the inode is 
+used in relation to files and directories in the file system.
